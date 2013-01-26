@@ -7,7 +7,7 @@ package
 	public class Main extends FlxGame
 	{
 		
-		public static var PIXEL:int = 8;
+		public static var PIXEL:Number = 8;
 		public static const WIDTH:int = 512;
 		public static const HEIGHT:int = 512;
 		public static const DEBUG:Boolean = true;

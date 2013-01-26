@@ -7,12 +7,15 @@ package
 	 */
 	public class PlayState extends FlxState
 	{
-		
+		private static const MAX_PIXELS:int = 20;
 		private var player:PlayerPixel;
 		private var nextPixelTime:int = 0;
 		private var cameraFocus:CameraFocus;
 		private var pixelGroup:FlxGroup;
 		private var numPixels:int = 0;
+		private var zoomTime:int = 0;
+		private var zoomFactor:Number = 0;
+		private var zoomMoves:Array = new Array(MAX_PIXELS * 2);
 		
 		public function PlayState()
 		{
@@ -35,7 +38,22 @@ package
 					}
 			}
 			nextPixelTime++;
-			if (nextPixelTime >= 10 && numPixels < 20)
+			if (zoomTime)
+			{
+				Main.PIXEL -= zoomFactor;
+				player.scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8);
+				for (var index2:int = 0; index2 < MAX_PIXELS; index2++)
+				{
+					if (pixelGroup.members[index2])
+					{
+						pixelGroup.members[index2].x -= zoomMoves[index2];
+						pixelGroup.members[index2].y -= zoomMoves[index2 + MAX_PIXELS];
+						pixelGroup.members[index2].scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8);
+					}
+				}
+				zoomTime--;
+			}
+			else if (nextPixelTime >= 10 && numPixels < MAX_PIXELS)
 			{
 				var side:int = Math.random() * 4 % 4;
 				var x:int, y:int;
@@ -66,20 +84,19 @@ package
 			
 			if (FlxG.keys.justPressed("SPACE"))
 			{
-				Main.PIXEL /= 2;
-				player.scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8);
-				for (var index2:int = 0; index2 < pixelGroup.length; index2++)
+				zoomTime = 20;
+				zoomFactor = Main.PIXEL / (2 * zoomTime);
+				for (var index3:int = 0; index3 < MAX_PIXELS; index3++)
 				{
-					if (pixelGroup.members[index2])
+					if (pixelGroup.members[index3])
 					{
 						var xOffset:int, yOffset:int;
-						xOffset = pixelGroup.members[index2].x - cameraFocus.x;
+						xOffset = pixelGroup.members[index3].x - cameraFocus.x;
 						xOffset /= 2;
-						pixelGroup.members[index2].x -= xOffset;
-						yOffset = pixelGroup.members[index2].y - cameraFocus.y;
+						zoomMoves[index3] = xOffset / zoomTime;
+						yOffset = pixelGroup.members[index3].y - cameraFocus.y;
 						yOffset /= 2;
-						pixelGroup.members[index2].y -= yOffset;
-						pixelGroup.members[index2].scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8);
+						zoomMoves[MAX_PIXELS + index3] = yOffset / zoomTime;
 					}
 				}
 			}
@@ -89,7 +106,7 @@ package
 		
 		override public function create():void
 		{
-			pixelGroup = new FlxGroup(20);
+			pixelGroup = new FlxGroup(MAX_PIXELS);
 			add(pixelGroup);
 			
 			player = new PlayerPixel(Main.WIDTH / 2 - 16, Main.HEIGHT / 2 - 16);
