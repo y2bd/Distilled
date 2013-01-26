@@ -46,6 +46,7 @@ package
 				add(newPixel);
 				nextPixelTime = 0;
 			}
+			
 			super.update();
 		}
 		
@@ -53,6 +54,10 @@ package
 		{
 			player = new PlayerPixel(Main.WIDTH / 2 - 16, Main.HEIGHT / 2 - 16);
 			add(player);
+			
+			var cameraFocus:CameraFocus = new CameraFocus(player);
+			add(cameraFocus);
+			FlxG.camera.follow(cameraFocus);
 		}
 	}
 

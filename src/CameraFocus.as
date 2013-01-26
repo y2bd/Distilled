@@ -7,7 +7,7 @@ package
 	 */
 	public class CameraFocus extends FlxSprite
 	{
-		private const RATIO:Number = 0.1;
+		private const RATIO:Number = 0.05;
 		
 		private var player:PlayerPixel;
 		
@@ -15,7 +15,7 @@ package
 		{
 			super(p.x, p.y);
 			player = p;
-			makeGraphic(8, 8, 0xffff0000);
+			makeGraphic(8, 8, 0x00ff0000);
 		}
 		
 		override public function update():void
