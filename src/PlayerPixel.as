@@ -24,6 +24,8 @@ package
 			maxVelocity.y = MAXVELOCITY;
 			boundingSize = 32;
 			pixelLocations = FinalImage.GenerateImagePlacementArray();
+			velocity.x = 0;
+			velocity.y = 0;
 		}
 		
 		override public function update():void
