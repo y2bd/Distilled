@@ -7,7 +7,7 @@ package
 	 */
 	public class CameraFocus extends FlxSprite
 	{
-		private const RATIO:Number = 0.05;
+		private const RATIO:Number = 0.03;
 		
 		private var player:PlayerPixel;
 		
