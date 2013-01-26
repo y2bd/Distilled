@@ -36,9 +36,9 @@ package
 			var g2:uint = endColor >> 8  & 0xFF;
 			var b2:uint = endColor       & 0xFF;
 			
-			var rLerp:uint = (uint) DistilledHelper.lerp (r1, r2, position);
-			var gLerp:uint = (uint) DistilledHelper.lerp (g1, g2, position);
-			var bLerp:uint = (uint) DistilledHelper.lerp (b1, b2, position);
+			var rLerp:uint = uint(DistilledHelper.lerp (r1, r2, position));
+			var gLerp:uint = uint(DistilledHelper.lerp (g1, g2, position));
+			var bLerp:uint = uint(DistilledHelper.lerp (b1, b2, position));
 			
 			return (rLerp << 16) | (gLerp << 8) | bLerp;
 		}

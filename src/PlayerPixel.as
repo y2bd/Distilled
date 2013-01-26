@@ -84,7 +84,7 @@ package
 						size++;
 						var thisGuy:FlxSprite = PlayState.pixelGroup.members[index];
 						playerPixels.add(thisGuy);
-						Pixel(thisGuy).pickup(this, pixelLocations[playerPixels.length-1][0] - 32, pixelLocations[playerPixels.length-1][1] - 32);
+						Pixel(thisGuy).pickup(this, pixelLocations[playerPixels.length-1][1] - 32, pixelLocations[playerPixels.length-1][0] - 32, pixelLocations[playerPixels.length-1][2]);
 						PlayState.pixelGroup.remove(thisGuy);
 						PlayState.numPixels--;
 					}
@@ -92,7 +92,7 @@ package
 			}
 			if (size > Math.pow(boundingSize / (2 * Main.PIXEL) + 1, 2) && !PlayState.zoomTime)
 			{
-				boundingSize += 6 * Main.PIXEL;
+				boundingSize += 10 * Main.PIXEL;
 				numNewLayers++;
 				if(numNewLayers == 1 || numNewLayers == 2 || (numNewLayers % 4 == 0))
 					PlayState.transitionFlag = true;
