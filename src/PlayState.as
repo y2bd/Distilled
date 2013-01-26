@@ -11,6 +11,8 @@ package
 		private var player:PlayerPixel;
 		private var nextPixelTime:int = 0;
 		private var cameraFocus:CameraFocus;
+		private var pixelGroup:FlxGroup;
+		private var numPixels:int = 0;
 		
 		public function PlayState()
 		{
@@ -19,8 +21,21 @@ package
 		
 		override public function update():void
 		{
+			for (var index:int; index < pixelGroup.length; index++)
+			{
+				if(pixelGroup.members[index])
+					if (pixelGroup.members[index].x > cameraFocus.x + Main.WIDTH ||
+						pixelGroup.members[index].x < cameraFocus.x - Main.WIDTH ||
+						pixelGroup.members[index].y > cameraFocus.y + Main.HEIGHT ||
+						pixelGroup.members[index].y < cameraFocus.y - Main.HEIGHT)
+					{
+						pixelGroup.members[index].kill();
+						pixelGroup.remove(pixelGroup.members[index]);
+						numPixels--;
+					}
+			}
 			nextPixelTime++;
-			if (nextPixelTime >= 15)
+			if (nextPixelTime >= 10 && numPixels < 20)
 			{
 				var side:int = Math.random() * 4 % 4;
 				var x:int, y:int;
@@ -44,7 +59,8 @@ package
 						break;
 				}
 				var newPixel:Pixel = new Pixel(x, y);
-				add(newPixel);
+				pixelGroup.add(newPixel);
+				numPixels++;
 				nextPixelTime = 0;
 			}
 			
@@ -53,6 +69,9 @@ package
 		
 		override public function create():void
 		{
+			pixelGroup = new FlxGroup(20);
+			add(pixelGroup);
+			
 			player = new PlayerPixel(Main.WIDTH / 2 - 16, Main.HEIGHT / 2 - 16);
 			add(player);
 			
