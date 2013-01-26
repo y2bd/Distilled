@@ -45,8 +45,8 @@ package
 				//trace(player.boundingSize);
 			}
 			else {
-				velocity.x += Math.random() * 5 - 2.5;
-				velocity.y += Math.random() * 5 - 2.5;
+				velocity.x += (Math.random() * 5 - 2.5) / Main.PIXEL / 8;
+				velocity.y += (Math.random() * 5 - 2.5) / Main.PIXEL / 8;
 			}
 		}
 		

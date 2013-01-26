@@ -117,6 +117,8 @@ package
 					yOffset = pixelGroup.members[index].y - cameraFocus.y;
 					yOffset /= 4;
 					zoomMoves[MAX_PIXELS + index] = yOffset / zoomTime;
+					pixelGroup.members[index].velocity.x /= Main.PIXEL / 8;
+					pixelGroup.members[index].velocity.y /= Main.PIXEL / 8;
 				}
 			}
 		}
