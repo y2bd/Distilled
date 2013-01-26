@@ -13,7 +13,7 @@ package
 		
 		public function CameraFocus(p:PlayerPixel) 
 		{
-			super(p.x, p.y);
+			super(p.x + p.width / 2, p.y + p.width / 2);
 			player = p;
 			makeGraphic(8, 8, 0x00ff0000);
 		}

@@ -79,6 +79,7 @@ package
 				}
 				var newPixel:Pixel = new Pixel(x, y);
 				pixelGroup.add(newPixel);
+				add(newPixel);
 				numPixels++;
 				nextPixelTime = 0;
 			}
@@ -109,7 +110,7 @@ package
 		override public function create():void
 		{
 			pixelGroup = new FlxGroup(MAX_PIXELS);
-			add(pixelGroup);
+			//add(pixelGroup);
 			
 			player = new PlayerPixel(Main.WIDTH / 2 - 16, Main.HEIGHT / 2 - 16);
 			add(player);

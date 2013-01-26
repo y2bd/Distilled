@@ -1,5 +1,6 @@
 package  
 {
+	import mx.core.FlexSprite;
 	import org.flixel.*;
 	
 	/**
@@ -12,6 +13,7 @@ package
 		private const EPSILON:Number = 5;
 		public var boundingSize:int;
 		private var size:int = 1;
+		public static var playerPixels:FlxGroup = new FlxGroup();
 		
 		public function PlayerPixel(x:int, y:int) 
 		{
@@ -50,6 +52,17 @@ package
 			if (velocity.y < EPSILON && velocity.y > -EPSILON) velocity.y = 0;
 			
 			checkCollisions();
+			
+			if (PlayState.zoomTime)
+			{
+				for (var zoomIndex:int = 0; zoomIndex < playerPixels.length; zoomIndex++)
+				{
+					if (playerPixels.members[zoomIndex])
+					{
+						playerPixels.members[zoomIndex].scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8);
+					}
+				}
+			}
 		}
 		
 		private function checkCollisions():void
@@ -64,8 +77,10 @@ package
 						y > this.y - boundingSize && y < this.y + boundingSize)
 					{
 						size++;
-						PlayState.pixelGroup.members[index].kill();
-						PlayState.pixelGroup.remove(PlayState.pixelGroup.members[index]);
+						var thisGuy:FlxSprite = PlayState.pixelGroup.members[index];
+						Pixel(thisGuy).pickup(this, int(Math.random()*5-3), int(Math.random()*5-3));
+						playerPixels.add(thisGuy);
+						PlayState.pixelGroup.remove(thisGuy);
 						PlayState.numPixels--;
 					}
 				}
@@ -73,7 +88,7 @@ package
 			if (size > Math.pow(boundingSize / (2 * Main.PIXEL) + 1, 2) && !PlayState.zoomTime)
 			{
 				boundingSize += 4 * Main.PIXEL;
-				trace("+");
+				//trace("+");
 			}
 		}
 		
