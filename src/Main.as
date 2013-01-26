@@ -7,14 +7,14 @@ package
 	public class Main extends FlxGame
 	{
 		
-		public static const PIXEL:int = 1;
-		public static const WIDTH:int = 512 / PIXEL;
-		public static const HEIGHT:int = 512 / PIXEL;
+		public static var PIXEL:int = 8;
+		public static const WIDTH:int = 512;
+		public static const HEIGHT:int = 512;
 		public static const DEBUG:Boolean = true;
 		
 		public function Main():void 
 		{
-			super(WIDTH, HEIGHT, PlayState, PIXEL, 60, 60, true);
+			super(WIDTH, HEIGHT, PlayState, 1, 60, 60, true);
 			forceDebugger = DEBUG;
 		}
 				

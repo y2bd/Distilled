@@ -21,7 +21,7 @@ package
 		
 		override public function update():void
 		{
-			for (var index:int; index < pixelGroup.length; index++)
+			for (var index:int = 0; index < pixelGroup.length; index++)
 			{
 				if(pixelGroup.members[index])
 					if (pixelGroup.members[index].x > cameraFocus.x + Main.WIDTH ||
@@ -62,6 +62,26 @@ package
 				pixelGroup.add(newPixel);
 				numPixels++;
 				nextPixelTime = 0;
+			}
+			
+			if (FlxG.keys.justPressed("SPACE"))
+			{
+				Main.PIXEL /= 2;
+				player.scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8);
+				for (var index2:int = 0; index2 < pixelGroup.length; index2++)
+				{
+					if (pixelGroup.members[index2])
+					{
+						var xOffset:int, yOffset:int;
+						xOffset = pixelGroup.members[index2].x - cameraFocus.x;
+						xOffset /= 2;
+						pixelGroup.members[index2].x -= xOffset;
+						yOffset = pixelGroup.members[index2].y - cameraFocus.y;
+						yOffset /= 2;
+						pixelGroup.members[index2].y -= yOffset;
+						pixelGroup.members[index2].scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8);
+					}
+				}
 			}
 			
 			super.update();
