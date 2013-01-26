@@ -14,9 +14,9 @@ package
 		private var pickedup:Boolean;
 		private var xoffset:int;
 		private var yoffset:int;
-		private var fadeCount:int;
-		private var color1:uint;
-		private var color2:uint;
+		protected var fadeCount:int;
+		protected var color1:uint;
+		protected var color2:uint;
 		private var updateCount:int = 0;
 		
 		public function Pixel(x:int, y:int) 

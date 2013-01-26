@@ -26,6 +26,8 @@ package
 			pixelLocations = FinalImage.GenerateImagePlacementArray();
 			velocity.x = 0;
 			velocity.y = 0;
+			playerPixels.add(this);
+			Pixel(this).pickup(this, pixelLocations[playerPixels.length-1][1] - 32, pixelLocations[playerPixels.length-1][0] - 32, pixelLocations[playerPixels.length-1][2]);
 		}
 		
 		override public function update():void
@@ -68,13 +70,18 @@ package
 					}
 				}
 			}
+			if (fadeCount > 0)
+			{
+				fadeCount--;
+				color = DistilledHelper.lerpColor(color1, color2, (60 - fadeCount) / 60);
+			}
 		}
 		
 		private function checkCollisions():void
 		{
 			for (var index:int = 0; index < PlayState.MAX_PIXELS; index++)
 			{
-				if (PlayState.pixelGroup.members[index] && !PlayState.zoomTime)
+				if (PlayState.pixelGroup.members[index] && !PlayState.zoomTime && size < 4096)
 				{
 					var x:int = PlayState.pixelGroup.members[index].x;
 					var y:int = PlayState.pixelGroup.members[index].y;
@@ -84,7 +91,7 @@ package
 						size++;
 						var thisGuy:FlxSprite = PlayState.pixelGroup.members[index];
 						playerPixels.add(thisGuy);
-						Pixel(thisGuy).pickup(this, pixelLocations[playerPixels.length-1][1] - 32, pixelLocations[playerPixels.length-1][0] - 32, pixelLocations[playerPixels.length-1][2]);
+						Pixel(thisGuy).pickup(this, pixelLocations[playerPixels.length-1][1] - 32, pixelLocations[playerPixels.length-1][0] - 31, pixelLocations[playerPixels.length-1][2]);
 						PlayState.pixelGroup.remove(thisGuy);
 						PlayState.numPixels--;
 					}

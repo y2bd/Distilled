@@ -134,6 +134,8 @@ package
 			cameraFocus = new CameraFocus(player);
 			add(cameraFocus);
 			FlxG.camera.follow(cameraFocus);
+			
+			transition();
 		}
 	}
 
