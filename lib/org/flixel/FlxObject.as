@@ -380,11 +380,6 @@ package org.flixel
 		{
 			var delta:Number;
 			var velocityDelta:Number;
-
-			velocityDelta = (FlxU.computeVelocity(angularVelocity,angularAcceleration,angularDrag,maxAngular) - angularVelocity)/2;
-			angularVelocity += velocityDelta; 
-			angle += angularVelocity*FlxG.elapsed;
-			angularVelocity += velocityDelta;
 			
 			velocityDelta = (FlxU.computeVelocity(velocity.x,acceleration.x,drag.x,maxVelocity.x) - velocity.x)/2;
 			velocity.x += velocityDelta;

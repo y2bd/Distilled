@@ -10,12 +10,12 @@ package
 		public static var PIXEL:Number = 8;
 		public static const WIDTH:int = 512;
 		public static const HEIGHT:int = 512;
-		public static const DEBUG:Boolean = true;
+		public static const DEBUG:Boolean = false;
 		
 		public function Main():void 
 		{
-			super(WIDTH, HEIGHT, PlayState, 1, 60, 60, true);
-			forceDebugger = DEBUG;
+			super(WIDTH, HEIGHT, PlayState, 1, 60, 30, true);
+			//forceDebugger = DEBUG;
 		}
 				
 	}

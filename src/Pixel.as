@@ -17,6 +17,7 @@ package
 		private var fadeCount:int;
 		private var color1:uint;
 		private var color2:uint;
+		private var updateCount:int = 0;
 		
 		public function Pixel(x:int, y:int) 
 		{
@@ -43,7 +44,7 @@ package
 		
 		override public function update():void
 		{
-			if (pickedup)
+			if (pickedup && updateCount > 5)
 			{
 				velocity.x *= .97;
 				velocity.y *= .97;
@@ -64,6 +65,7 @@ package
 				fadeCount--;
 				color = DistilledHelper.lerpColor(color1, color2, (60 - fadeCount) / 60);
 			}
+			updateCount++;
 		}
 		
 	}
