@@ -14,6 +14,8 @@ package
 		public var boundingSize:int;
 		private var size:int = 1;
 		public static var playerPixels:FlxGroup = new FlxGroup();
+		private var pixelLocations:Array;
+		private var numNewLayers:int = 0;
 		
 		public function PlayerPixel(x:int, y:int) 
 		{
@@ -21,6 +23,7 @@ package
 			maxVelocity.x = MAXVELOCITY;
 			maxVelocity.y = MAXVELOCITY;
 			boundingSize = 32;
+			pixelLocations = FinalImage.GenerateImagePlacementArray();
 		}
 		
 		override public function update():void
@@ -78,8 +81,8 @@ package
 					{
 						size++;
 						var thisGuy:FlxSprite = PlayState.pixelGroup.members[index];
-						Pixel(thisGuy).pickup(this, int(Math.random()*5-3), int(Math.random()*5-3));
 						playerPixels.add(thisGuy);
+						Pixel(thisGuy).pickup(this, pixelLocations[playerPixels.length-1][0] - 32, pixelLocations[playerPixels.length-1][1] - 32);
 						PlayState.pixelGroup.remove(thisGuy);
 						PlayState.numPixels--;
 					}
@@ -87,8 +90,10 @@ package
 			}
 			if (size > Math.pow(boundingSize / (2 * Main.PIXEL) + 1, 2) && !PlayState.zoomTime)
 			{
-				boundingSize += 4 * Main.PIXEL;
-				PlayState.transitionFlag = true;
+				boundingSize += 6 * Main.PIXEL;
+				numNewLayers++;
+				if(numNewLayers == 1 || numNewLayers == 2 || (numNewLayers % 4 == 0))
+					PlayState.transitionFlag = true;
 				trace("+");
 			}
 		}

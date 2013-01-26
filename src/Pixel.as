@@ -25,7 +25,7 @@ package
 		{
 			pickedup = true;
 			player = p;
-			ease = Math.random() * 0.15 + 0.02;
+			ease = Math.random() * 0.05 + 0.02;
 			this.xoffset = xoffset;
 			this.yoffset = yoffset;
 		}
@@ -35,8 +35,8 @@ package
 			if (pickedup)
 			{
 				var pixelSize:Number = Main.PIXEL * 4;
-				x += (player.x + xoffset * pixelSize - x) * ease;
-				y += (player.y + yoffset * pixelSize - y) * ease;
+				x += (player.x + Number(xoffset) * pixelSize - x) * ease;
+				y += (player.y + Number(yoffset) * pixelSize - y) * ease;
 				//trace(player.boundingSize);
 			}
 		}

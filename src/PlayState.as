@@ -7,8 +7,8 @@ package
 	 */
 	public class PlayState extends FlxState
 	{
-		public static const MAX_PIXELS:int = 20;
-		private static const PIXEL_DELAY:int = 10;
+		public static var MAX_PIXELS:int = 20;
+		private static var PIXEL_DELAY:int = 10;
 		private var player:PlayerPixel;
 		private var nextPixelTime:int = 0;
 		private var cameraFocus:CameraFocus;
@@ -16,7 +16,7 @@ package
 		public static var numPixels:int = 0;
 		public static var zoomTime:int = 0;
 		private var zoomFactor:Number = 0;
-		private var zoomMoves:Array = new Array(MAX_PIXELS * 2);
+		private var zoomMoves:Array = new Array();
 		public static var transitionFlag:Boolean;
 		
 		public function PlayState()
@@ -101,6 +101,8 @@ package
 		
 		public function transition():void
 		{
+			MAX_PIXELS += 3;
+			PIXEL_DELAY--;
 			zoomTime = 20;
 			zoomFactor = Main.PIXEL / (4 * zoomTime);
 			player.boundingSize *= 3/4;
@@ -121,7 +123,7 @@ package
 		
 		override public function create():void
 		{
-			pixelGroup = new FlxGroup(MAX_PIXELS);
+			pixelGroup = new FlxGroup();
 			//add(pixelGroup);
 			
 			player = new PlayerPixel(Main.WIDTH / 2 - 16, Main.HEIGHT / 2 - 16);
