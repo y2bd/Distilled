@@ -9,6 +9,7 @@ package
 	{
 		private const ACCEL:Number = 800; // in pixels per second per second
 		private const MAXVELOCITY:Number = 200; // in pixels per second
+		private const EPSILON:Number = 5;
 		
 		public function PlayerPixel(x:int, y:int) 
 		{
@@ -42,6 +43,9 @@ package
 				else if (velocity.y < 0) acceleration.y = ACCEL;
 				else acceleration.y = 0;
 			}
+			
+			if (velocity.x < EPSILON && velocity.x > -EPSILON) velocity.x = 0;
+			if (velocity.y < EPSILON && velocity.y > -EPSILON) velocity.y = 0;
 		}
 		
 	}
