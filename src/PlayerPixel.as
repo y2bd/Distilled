@@ -88,7 +88,8 @@ package
 			if (size > Math.pow(boundingSize / (2 * Main.PIXEL) + 1, 2) && !PlayState.zoomTime)
 			{
 				boundingSize += 4 * Main.PIXEL;
-				//trace("+");
+				PlayState.transitionFlag = true;
+				trace("+");
 			}
 		}
 		

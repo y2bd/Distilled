@@ -17,6 +17,7 @@ package
 		public static var zoomTime:int = 0;
 		private var zoomFactor:Number = 0;
 		private var zoomMoves:Array = new Array(MAX_PIXELS * 2);
+		public static var transitionFlag:Boolean;
 		
 		public function PlayState()
 		{
@@ -66,14 +67,14 @@ package
 						break;
 					case 1:
 						x = cameraFocus.x + Math.random() * Main.WIDTH - Main.WIDTH / 2;
-						y = cameraFocus.y + Main.HEIGHT / 2;
+						y = cameraFocus.y + Main.HEIGHT / 2 + 10;
 						break;
 					case 2:
 						x = cameraFocus.x - 32 - Main.WIDTH / 2;
 						y = cameraFocus.y + Math.random() * Main.HEIGHT - Main.HEIGHT / 2;
 						break;
 					case 3:
-						x = cameraFocus.x + Main.WIDTH / 2;
+						x = cameraFocus.x + Main.WIDTH / 2 + 10;
 						y = cameraFocus.y + Math.random() * Main.HEIGHT - Main.HEIGHT / 2;
 						break;
 				}
@@ -86,25 +87,36 @@ package
 			
 			if (FlxG.keys.justPressed("SPACE"))
 			{
-				zoomTime = 20;
-				zoomFactor = Main.PIXEL / (2 * zoomTime);
-				player.boundingSize /= 2;
-				for (var index3:int = 0; index3 < MAX_PIXELS; index3++)
-				{
-					if (pixelGroup.members[index3])
-					{
-						var xOffset:int, yOffset:int;
-						xOffset = pixelGroup.members[index3].x - cameraFocus.x;
-						xOffset /= 2;
-						zoomMoves[index3] = xOffset / zoomTime;
-						yOffset = pixelGroup.members[index3].y - cameraFocus.y;
-						yOffset /= 2;
-						zoomMoves[MAX_PIXELS + index3] = yOffset / zoomTime;
-					}
-				}
+				transition();
+			}
+			
+			if (transitionFlag)
+			{
+				transitionFlag = false;
+				transition();
 			}
 			
 			super.update();
+		}
+		
+		public function transition():void
+		{
+			zoomTime = 20;
+			zoomFactor = Main.PIXEL / (4 * zoomTime);
+			player.boundingSize *= 3/4;
+			for (var index:int = 0; index < MAX_PIXELS; index++)
+			{
+				if (pixelGroup.members[index])
+				{
+					var xOffset:int, yOffset:int;
+					xOffset = pixelGroup.members[index].x - cameraFocus.x;
+					xOffset /= 4;
+					zoomMoves[index] = xOffset / zoomTime;
+					yOffset = pixelGroup.members[index].y - cameraFocus.y;
+					yOffset /= 4;
+					zoomMoves[MAX_PIXELS + index] = yOffset / zoomTime;
+				}
+			}
 		}
 		
 		override public function create():void
