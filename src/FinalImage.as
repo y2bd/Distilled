@@ -120,7 +120,7 @@ package
 			const OVERLAP:uint = 64;
 						
 			// cycle through each block
-			for (var i:uint = 0; i < treeImagePixels.length - OVERLAP; i += BLOCK_SIZE)
+			for (var i:uint = BLOCK_SIZE / 2; i < treeImagePixels.length - OVERLAP - (BLOCK_SIZE / 2); i += BLOCK_SIZE)
 			{
 				// generate a random index array becaues my code sucks
 				var randArr:Array = FinalImage.randomIndexArray(BLOCK_SIZE + OVERLAP);
