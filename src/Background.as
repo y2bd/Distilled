@@ -21,7 +21,8 @@ package
 				for (var col:int = 0; col < 8; col++)
 				{
 					add(imageArray[row][col] = new FlxSprite((col - 2) * 128, (row - 2) * 128, BG));
-					imageArray[row][col].color = 0xff00ff00;
+					imageArray[row][col].alpha = 0.1;
+					
 				}
 			}
 		}

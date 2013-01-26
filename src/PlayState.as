@@ -26,6 +26,9 @@ package
 		
 		override public function update():void
 		{
+			
+			FlxG.bgColor = 0xFF6677AA;
+			
 			for (var index:int = 0; index < pixelGroup.length; index++)
 			{
 				if(pixelGroup.members[index])
@@ -108,7 +111,7 @@ package
 		{
 			MAX_PIXELS += 3;
 			PIXEL_DELAY--;
-			zoomTime = 20;
+			zoomTime = 50;
 			zoomFactor = Main.PIXEL / (4 * zoomTime);
 			player.boundingSize *= 3/4;
 			for (var index:int = 0; index < MAX_PIXELS; index++)
