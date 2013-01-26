@@ -6,6 +6,7 @@ It was made during the UCSD Video Game Dev Club Winter Game Jam 2013 (that's a l
 # License
 
 Copyright (c) 2013, Fighting Mongooses
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
