@@ -26,20 +26,20 @@ package
 				switch(side)
 				{
 					case 0:
-						x = Math.random() * Main.WIDTH;
-						y = -32;
+						x = player.x + Math.random() * Main.WIDTH - Main.WIDTH / 2;
+						y = player.y - 32 - Main.HEIGHT / 2;
 						break;
 					case 1:
-						x = Math.random() * Main.WIDTH;
-						y = Main.HEIGHT;
+						x = player.x + Math.random() * Main.WIDTH - Main.WIDTH / 2;
+						y = player.y + Main.HEIGHT / 2;
 						break;
 					case 2:
-						x = -32;
-						y = Math.random() * Main.HEIGHT;
+						x = player.x - 32 - Main.WIDTH / 2;
+						y = player.y + Math.random() * Main.HEIGHT - Main.HEIGHT / 2;
 						break;
 					case 3:
-						x = Main.WIDTH;
-						y = Math.random() * Main.HEIGHT;
+						x = player.x + Main.WIDTH / 2;
+						y = player.y + Math.random() * Main.HEIGHT - Main.HEIGHT / 2;
 						break;
 				}
 				var newPixel:Pixel = new Pixel(x, y);
