@@ -11,7 +11,7 @@ package
 		private static var PIXEL_DELAY:int = 10;
 		private var player:PlayerPixel;
 		private var nextPixelTime:int = 0;
-		private var cameraFocus:CameraFocus;
+		public static var cameraFocus:CameraFocus;
 		public static var pixelGroup:FlxGroup;
 		public static var numPixels:int = 0;
 		public static var zoomTime:int = 0;
@@ -101,6 +101,11 @@ package
 		
 		public function transition():void
 		{
+			zoom();
+		}
+		
+		public function zoom():void
+		{
 			MAX_PIXELS += 3;
 			PIXEL_DELAY--;
 			zoomTime = 20;
@@ -125,6 +130,8 @@ package
 		
 		override public function create():void
 		{
+			add(new Background());
+			
 			pixelGroup = new FlxGroup();
 			//add(pixelGroup);
 			
@@ -135,7 +142,7 @@ package
 			add(cameraFocus);
 			FlxG.camera.follow(cameraFocus);
 			
-			transition();
+			zoom();
 		}
 	}
 
