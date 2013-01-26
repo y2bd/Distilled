@@ -7,6 +7,11 @@ package
 	 */
 	public class PlayState extends FlxState
 	{
+		override public function create():void
+		{
+			var p:PlayerPixel = new PlayerPixel(100, 100);
+			add(p);
+		}
 		
 		private var player:PlayerPixel;
 		private var nextPixelTime:int = 0;
