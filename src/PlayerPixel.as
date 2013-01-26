@@ -10,13 +10,15 @@ package
 		private const ACCEL:Number = 800; // in pixels per second per second
 		private const MAXVELOCITY:Number = 200; // in pixels per second
 		private const EPSILON:Number = 5;
+		public var boundingSize:int;
+		private var size:int = 1;
 		
 		public function PlayerPixel(x:int, y:int) 
 		{
 			super(x, y);
 			maxVelocity.x = MAXVELOCITY;
 			maxVelocity.y = MAXVELOCITY;
-			
+			boundingSize = 32;
 		}
 		
 		override public function update():void
@@ -46,6 +48,33 @@ package
 			
 			if (velocity.x < EPSILON && velocity.x > -EPSILON) velocity.x = 0;
 			if (velocity.y < EPSILON && velocity.y > -EPSILON) velocity.y = 0;
+			
+			checkCollisions();
+		}
+		
+		private function checkCollisions():void
+		{
+			for (var index:int = 0; index < PlayState.MAX_PIXELS; index++)
+			{
+				if (PlayState.pixelGroup.members[index] && !PlayState.zoomTime)
+				{
+					var x:int = PlayState.pixelGroup.members[index].x;
+					var y:int = PlayState.pixelGroup.members[index].y;
+					if (x > this.x - boundingSize && x < this.x + boundingSize &&
+						y > this.y - boundingSize && y < this.y + boundingSize)
+					{
+						size++;
+						PlayState.pixelGroup.members[index].kill();
+						PlayState.pixelGroup.remove(PlayState.pixelGroup.members[index]);
+						PlayState.numPixels--;
+					}
+				}
+			}
+			if (size > Math.pow(boundingSize / (2 * Main.PIXEL) + 1, 2) && !PlayState.zoomTime)
+			{
+				boundingSize += 4 * Main.PIXEL;
+				trace("+");
+			}
 		}
 		
 	}

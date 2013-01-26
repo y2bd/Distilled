@@ -7,13 +7,14 @@ package
 	 */
 	public class PlayState extends FlxState
 	{
-		private static const MAX_PIXELS:int = 20;
+		public static const MAX_PIXELS:int = 20;
+		private static const PIXEL_DELAY:int = 10;
 		private var player:PlayerPixel;
 		private var nextPixelTime:int = 0;
 		private var cameraFocus:CameraFocus;
-		private var pixelGroup:FlxGroup;
-		private var numPixels:int = 0;
-		private var zoomTime:int = 0;
+		public static var pixelGroup:FlxGroup;
+		public static var numPixels:int = 0;
+		public static var zoomTime:int = 0;
 		private var zoomFactor:Number = 0;
 		private var zoomMoves:Array = new Array(MAX_PIXELS * 2);
 		
@@ -53,7 +54,7 @@ package
 				}
 				zoomTime--;
 			}
-			else if (nextPixelTime >= 10 && numPixels < MAX_PIXELS)
+			else if (nextPixelTime >= PIXEL_DELAY && numPixels < MAX_PIXELS)
 			{
 				var side:int = Math.random() * 4 % 4;
 				var x:int, y:int;
@@ -86,6 +87,7 @@ package
 			{
 				zoomTime = 20;
 				zoomFactor = Main.PIXEL / (2 * zoomTime);
+				player.boundingSize /= 2;
 				for (var index3:int = 0; index3 < MAX_PIXELS; index3++)
 				{
 					if (pixelGroup.members[index3])
