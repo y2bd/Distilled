@@ -4,6 +4,12 @@ package
 	public class DistilledHelper 
 	{
 		/**
+		 * The background colors we should cycle though.
+		 */
+		public static const BG_COLORS:Array = [0x8fdd78, 0x69c7b9, 0x8388cb, 0xc291d9,
+											   0xe18181, 0xefbb61, 0xe7e253, 0x8fdd78];
+		
+		/**
 		 * The <tt>lerp</tt> function calculates a specified position between two Numbers.
 		 * @param	start The number which we start the distance calculation from.
 		 * @param	end The number which we end the distance calculation from.
