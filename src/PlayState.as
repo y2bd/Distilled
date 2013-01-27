@@ -21,7 +21,6 @@ package
 		
 		public function PlayState()
 		{
-			
 		}
 		
 		override public function update():void
@@ -29,6 +28,7 @@ package
 			
 			FlxG.bgColor = 0xFF6677AA;
 			
+			// Delete pixels that are 1 screen width from the center of the screen
 			for (var index:int = 0; index < pixelGroup.length; index++)
 			{
 				if(pixelGroup.members[index])
@@ -42,12 +42,15 @@ package
 						numPixels--;
 					}
 			}
+			
 			nextPixelTime++;
+			
+			// Animate the zooming out
 			if (zoomTime)
 			{
-				Main.PIXEL -= zoomFactor;
-				player.scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8);
-				for (var index2:int = 0; index2 < MAX_PIXELS; index2++)
+				Main.PIXEL -= zoomFactor; // The scaling factor changes over time instead of all at once
+				player.scale = new FlxPoint(Main.PIXEL / 8, Main.PIXEL / 8); // Scale the player
+				for (var index2:int = 0; index2 < MAX_PIXELS; index2++) // Move and scale the Pixels
 				{
 					if (pixelGroup.members[index2])
 					{
@@ -58,8 +61,12 @@ package
 				}
 				zoomTime--;
 			}
+			
+			/* Only spawn Pixels at a rate of 60 / PIXEL_DELAY per second
+			 * Never have more than MAX_PIXELS created at a time */
 			else if (nextPixelTime >= PIXEL_DELAY && numPixels < MAX_PIXELS)
 			{
+				// Randomly choose a side to spawn the Pixel on then randomly offset it on that axis just outside the screen
 				var side:int = Math.random() * 4 % 4;
 				var x:int, y:int;
 				switch(side)
@@ -81,6 +88,8 @@ package
 						y = cameraFocus.y + Math.random() * Main.HEIGHT - Main.HEIGHT / 2;
 						break;
 				}
+				
+				// Add the new Pixels to the group so that they can be updated
 				var newPixel:Pixel = new Pixel(x, y);
 				pixelGroup.add(newPixel);
 				add(newPixel);
@@ -93,6 +102,7 @@ package
 				transition();
 			}
 			
+			// Set by PlayerPixel after a certain number of Pixels are captured
 			if (transitionFlag)
 			{
 				transitionFlag = false;
@@ -102,18 +112,27 @@ package
 			super.update();
 		}
 		
+		/**
+		 * Changes music, color, and scale.
+		 */
 		public function transition():void
 		{
 			zoom();
 		}
 		
+		/**
+		 * Starts the downscaling animation to imitate zooming out.
+		 */
 		public function zoom():void
 		{
 			MAX_PIXELS += 3;
 			PIXEL_DELAY--;
+			
 			zoomTime = 50;
-			zoomFactor = Main.PIXEL / (4 * zoomTime);
-			player.boundingSize *= 3/4;
+			zoomFactor = Main.PIXEL / (4 * zoomTime); // How much to increment Main.Pixel each tick while resizing
+			player.boundingSize *= 3 / 4; // Make the player's bounding box scale with him
+			
+			// Calculate how much each Pixel needs to move per tick and store it in an Array
 			for (var index:int = 0; index < MAX_PIXELS; index++)
 			{
 				if (pixelGroup.members[index])
@@ -125,6 +144,8 @@ package
 					yOffset = pixelGroup.members[index].y - cameraFocus.y;
 					yOffset /= 4;
 					zoomMoves[MAX_PIXELS + index] = yOffset / zoomTime;
+					
+					// Scale the velocities with the Pixels
 					pixelGroup.members[index].velocity.x /= Main.PIXEL / 8;
 					pixelGroup.members[index].velocity.y /= Main.PIXEL / 8;
 				}
@@ -136,16 +157,18 @@ package
 			add(new Background());
 			
 			pixelGroup = new FlxGroup();
-			//add(pixelGroup);
 			
+			// Center the player
 			player = new PlayerPixel(Main.WIDTH / 2 - 16, Main.HEIGHT / 2 - 16);
 			add(player);
 			
+			/* The camera follows the this object which follows the player to create
+			 * a delay between player movement and camera movement */
 			cameraFocus = new CameraFocus(player);
 			add(cameraFocus);
 			FlxG.camera.follow(cameraFocus);
 			
-			zoom();
+			zoom(); // It is to close in otherwise, but I didn't want to have to reset all the scaling by hand
 		}
 	}
 

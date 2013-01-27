@@ -2,18 +2,28 @@ package
 {
 	import org.flixel.*;
 	
+	/**
+	 * The class to hold the tiled background.
+	 */
 	public class Background extends FlxGroup
 	{
 		[Embed(source = "../assets/tileTexture.png")]
 		public static var BG:Class;
 		
 		private var imageArray:Array;
+		
+		// Where the camera was last time the background was moved
 		private var oldX:int = Main.WIDTH / 2 - 16;
 		private var oldY:int = Main.HEIGHT / 2 - 16;
 		
+		/**
+		 * Contructor for the Background object.
+		 */
 		public function Background()
 		{
 			super();
+			
+			// Create an array of the background image
 			imageArray = new Array();
 			for (var row:int = 0; row < 8; row++)
 			{
@@ -27,6 +37,9 @@ package
 			}
 		}
 		
+		/**
+		 * For every 128 pixels that the player moves move the background 128 pixels.
+		 */
 		override public function update():void
 		{
 			var row:int, col:int;
