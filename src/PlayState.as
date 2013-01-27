@@ -1,4 +1,4 @@
-package  
+package
 {
 	import mx.core.FlexApplicationBootstrap;
 	import org.flixel.*;
@@ -21,18 +21,34 @@ package
 		public static var transitionFlag:Boolean;
 		
 		public static var backgroundColor:Number;
-		public static var backgroundChangeTime:Number;		
+		public static var backgroundChangeTime:Number;
 		
 		// hehe audio
-		[Embed(source = "../assets/audio/first.mp3")]
+		[Embed(source="../assets/audio/first.mp3")]
 		public var audio1:Class;
 		
-		[Embed(source = "../assets/audio/second.mp3")]
+		[Embed(source="../assets/audio/second.mp3")]
 		public var audio2:Class;
 		
-		[Embed(source = "../assets/audio/third.mp3")]
+		[Embed(source="../assets/audio/third.mp3")]
 		public var audio3:Class;
 		
+		[Embed(source="../assets/audio/fourth.mp3")]
+		public var audio4:Class;
+		
+		[Embed(source="../assets/audio/fifth.mp3")]
+		public var audio5:Class;
+		
+		[Embed(source="../assets/audio/sixth.mp3")]
+		public var audio6:Class;
+		
+		[Embed(source="../assets/audio/seventh.mp3")]
+		public var audio7:Class;
+		
+		[Embed(source="../assets/audio/eighth.mp3")]
+		public var audio8:Class;
+		
+		// audio vars
 		public var audioTime:Number;
 		public var audioSection:Number;
 		
@@ -45,7 +61,7 @@ package
 		
 		public function PlayState()
 		{
-			
+		
 		}
 		
 		override public function update():void
@@ -55,11 +71,8 @@ package
 			// Delete pixels that are 1 screen width from the center of the screen
 			for (var index:int = 0; index < pixelGroup.length; index++)
 			{
-				if(pixelGroup.members[index])
-					if (pixelGroup.members[index].x > cameraFocus.x + Main.WIDTH ||
-						pixelGroup.members[index].x < cameraFocus.x - Main.WIDTH ||
-						pixelGroup.members[index].y > cameraFocus.y + Main.HEIGHT ||
-						pixelGroup.members[index].y < cameraFocus.y - Main.HEIGHT)
+				if (pixelGroup.members[index])
+					if (pixelGroup.members[index].x > cameraFocus.x + Main.WIDTH || pixelGroup.members[index].x < cameraFocus.x - Main.WIDTH || pixelGroup.members[index].y > cameraFocus.y + Main.HEIGHT || pixelGroup.members[index].y < cameraFocus.y - Main.HEIGHT)
 					{
 						pixelGroup.members[index].kill();
 						pixelGroup.remove(pixelGroup.members[index]);
@@ -93,21 +106,21 @@ package
 				// Randomly choose a side to spawn the Pixel on then randomly offset it on that axis just outside the screen
 				var side:int = Math.random() * 4 % 4;
 				var x:int, y:int;
-				switch(side)
+				switch (side)
 				{
-					case 0:
+					case 0: 
 						x = cameraFocus.x + Math.random() * Main.WIDTH - Main.WIDTH / 2;
 						y = cameraFocus.y - 32 - Main.HEIGHT / 2;
 						break;
-					case 1:
+					case 1: 
 						x = cameraFocus.x + Math.random() * Main.WIDTH - Main.WIDTH / 2;
 						y = cameraFocus.y + Main.HEIGHT / 2 + 10;
 						break;
-					case 2:
+					case 2: 
 						x = cameraFocus.x - 32 - Main.WIDTH / 2;
 						y = cameraFocus.y + Math.random() * Main.HEIGHT - Main.HEIGHT / 2;
 						break;
-					case 3:
+					case 3: 
 						x = cameraFocus.x + Main.WIDTH / 2 + 10;
 						y = cameraFocus.y + Math.random() * Main.HEIGHT - Main.HEIGHT / 2;
 						break;
@@ -122,13 +135,15 @@ package
 			}
 			
 			// animate background color changing
-			if (backgroundChangeTime > 0) {
+			if (backgroundChangeTime > 0)
+			{
 				
 				backgroundColor = DistilledHelper.lerpColorWithAlpha(backgroundColor, DistilledHelper.backgroundColors[0], (100 - backgroundChangeTime) / 100);
 				
-				backgroundChangeTime --;
+				backgroundChangeTime--;
 			}
-			else if (backgroundChangeTime == 0) {
+			else if (backgroundChangeTime == 0)
+			{
 				backgroundColor = DistilledHelper.backgroundColors.shift();
 				backgroundChangeTime = -1;
 			}
@@ -144,7 +159,7 @@ package
 				transitionFlag = false;
 				transition();
 			}
-						
+			
 			// audio is broken, this is fix
 			prevMusic.update();
 			currMusic.update();
@@ -161,33 +176,47 @@ package
 			zoom();
 			
 			// we can't really change colors if there aren't any more colors left
-			if (DistilledHelper.backgroundColors.length > 0) 
+			if (DistilledHelper.backgroundColors.length > 0)
 				backgroundChangeTime = 100;
-				
-			audioSection ++;
 			
-			switch (audioSection) {
-				case 1:					
+			audioSection++;
+			
+			switch (audioSection)
+			{
+				case 1: 
 					currAudio = audio1;
 					currMusic.loadEmbedded(currAudio, true);
 					currMusic.fadeIn(1);
 					break;
-				case 2:
+				case 2: 
 					nextAudio = audio2;
 					break;
-				case 3:
-					nextAudio = audio3;		
+				case 3: 
+					nextAudio = audio3;
 					break;
-				case 4:
-					nextAudio = audio1;									
+				case 4: 
+					nextAudio = audio4;
+					break;
+				case 5: 
+					nextAudio = audio5;
+					break;
+				case 6: 
+					nextAudio = audio6;
+					break;
+				case 7: 
+					nextAudio = audio7;
+					break;
+				case 8: 
+					nextAudio = audio8;
 					break;
 			}
 			
-			if (audioSection > 1 && audioSection < 5) {			
+			if (audioSection > 1 && audioSection < 9)
+			{
 				
 				nextMusic = new FlxSound();
 				nextMusic.loadEmbedded(nextAudio, true);
-										
+				
 				currMusic.fadeOut(2);
 				nextMusic.fadeIn(2);
 				
@@ -199,7 +228,7 @@ package
 				audioTime = 60;
 			}
 			
-			trace ("Transitions");
+			trace("Transitions");
 		}
 		
 		/**
@@ -232,8 +261,7 @@ package
 					pixelGroup.members[index].velocity.y /= Main.PIXEL / 8;
 				}
 			}
-			
-			
+		
 		}
 		
 		override public function create():void

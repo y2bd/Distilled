@@ -6,7 +6,8 @@ package
 		/**
 		 * The background colors we should cycle though.
 		 */
-		public static var backgroundColors:Array = [0xFF8fdd78, 0xFF69c7b9, 0xFF8388cb, 0xFFc291d9,
+		public static var backgroundColors:Array = [0xFF808080,
+													0xFF8fdd78, 0xFF69c7b9, 0xFF8388cb, 0xFFc291d9,
 													0xFFe18181, 0xFFefbb61, 0xFFe7e253, 0xFF8fdd78];
 		
 		/**
