@@ -19,14 +19,16 @@ package
 		private var zoomMoves:Array = new Array();
 		public static var transitionFlag:Boolean;
 		
+		public static var backgroundColor:Number;
+		public static var backgroundChangeTime:Number;		
+		
 		public function PlayState()
 		{
 		}
 		
 		override public function update():void
 		{
-			
-			FlxG.bgColor = 0xFF6677AA;
+			FlxG.bgColor = backgroundColor;
 			
 			// Delete pixels that are 1 screen width from the center of the screen
 			for (var index:int = 0; index < pixelGroup.length; index++)
@@ -97,6 +99,18 @@ package
 				nextPixelTime = 0;
 			}
 			
+			// animate background color changing
+			if (backgroundChangeTime > 0) {
+				
+				backgroundColor = DistilledHelper.lerpColorWithAlpha(backgroundColor, DistilledHelper.backgroundColors[0], (50 - backgroundChangeTime) / 50);
+				
+				backgroundChangeTime --;
+			}
+			else if (backgroundChangeTime == 0) {
+				backgroundColor = DistilledHelper.backgroundColors.shift();
+				backgroundChangeTime = -1;
+			}
+			
 			if (FlxG.keys.justPressed("SPACE"))
 			{
 				transition();
@@ -118,6 +132,10 @@ package
 		public function transition():void
 		{
 			zoom();
+			
+			// we can't really change colors if there aren't any more colors left
+			if (DistilledHelper.backgroundColors.length > 0) 
+				backgroundChangeTime = 50;
 		}
 		
 		/**
@@ -155,6 +173,10 @@ package
 		override public function create():void
 		{
 			add(new Background());
+			
+			// set the background color
+			backgroundColor = DistilledHelper.backgroundColors.shift();
+			backgroundChangeTime = -1;
 			
 			pixelGroup = new FlxGroup();
 			

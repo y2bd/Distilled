@@ -6,8 +6,8 @@ package
 		/**
 		 * The background colors we should cycle though.
 		 */
-		public static const BG_COLORS:Array = [0x8fdd78, 0x69c7b9, 0x8388cb, 0xc291d9,
-											   0xe18181, 0xefbb61, 0xe7e253, 0x8fdd78];
+		public static var backgroundColors:Array = [0xFF8fdd78, 0xFF69c7b9, 0xFF8388cb, 0xFFc291d9,
+													0xFFe18181, 0xFFefbb61, 0xFFe7e253, 0xFF8fdd78];
 		
 		/**
 		 * The <tt>lerp</tt> function calculates a specified position between two Numbers.
@@ -33,20 +33,46 @@ package
 		 * @param	position The position between the two colors to calculate. Must be between 0 and 1.
 		 * @return  The lerped color.
 		 */
-		public static function lerpColor (startColor:uint, endColor:uint, position:Number):uint {
-			var r1:uint = startColor >> 16 & 0xFF;
-			var g1:uint = startColor >> 8  & 0xFF;
-			var b1:uint = startColor       & 0xFF;
+		public static function lerpColor (startColor:Number, endColor:Number, position:Number):Number {
+			var r1:Number = startColor >> 16 & 0xFF;
+			var g1:Number = startColor >> 8  & 0xFF;
+			var b1:Number = startColor       & 0xFF;
 			
-			var r2:uint = endColor >> 16 & 0xFF;
-			var g2:uint = endColor >> 8  & 0xFF;
-			var b2:uint = endColor       & 0xFF;
+			var r2:Number = endColor >> 16 & 0xFF;
+			var g2:Number = endColor >> 8  & 0xFF;
+			var b2:Number = endColor       & 0xFF;
 			
-			var rLerp:uint = uint(DistilledHelper.lerp (r1, r2, position));
-			var gLerp:uint = uint(DistilledHelper.lerp (g1, g2, position));
-			var bLerp:uint = uint(DistilledHelper.lerp (b1, b2, position));
+			var rLerp:Number = Number(DistilledHelper.lerp (r1, r2, position));
+			var gLerp:Number = Number(DistilledHelper.lerp (g1, g2, position));
+			var bLerp:Number = Number(DistilledHelper.lerp (b1, b2, position));
 			
 			return (rLerp << 16) | (gLerp << 8) | bLerp;
+		}
+		
+		/**
+		 * The <tt>lerpColorWithAlpha</tt> function calculates a specified transtion color between two ARGB colors.
+		 * @param	startColor The start ARGB color.
+		 * @param	endColor The end ARGB color.
+		 * @param	position The position between the two colors to calculate. Must be between 0 and 1.
+		 * @return  The lerped color.
+		 */
+		public static function lerpColorWithAlpha (startColor:Number, endColor:Number, position:Number):Number {
+			var a1:Number = startColor >> 24 & 0xFF;
+			var r1:Number = startColor >> 16 & 0xFF;
+			var g1:Number = startColor >> 8  & 0xFF;
+			var b1:Number = startColor       & 0xFF;
+			
+			var a2:Number = endColor >> 24 & 0xFF;
+			var r2:Number = endColor >> 16 & 0xFF;
+			var g2:Number = endColor >> 8  & 0xFF;
+			var b2:Number = endColor       & 0xFF;
+			
+			var aLerp:Number = DistilledHelper.lerp (a1, a2, position);
+			var rLerp:Number = DistilledHelper.lerp (r1, r2, position);
+			var gLerp:Number = DistilledHelper.lerp (g1, g2, position);
+			var bLerp:Number = DistilledHelper.lerp (b1, b2, position);
+			
+			return (aLerp << 24) | (rLerp << 16) | (gLerp << 8) | bLerp;
 		}
 		
 	}
