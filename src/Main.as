@@ -17,6 +17,7 @@ package
 		public function Main():void 
 		{
 			super(WIDTH, HEIGHT, PlayState, 1, 60, 30, true);
+			forceDebugger = true;
 		}
 				
 	}

@@ -1,5 +1,6 @@
 package  
 {
+	import mx.core.FlexApplicationBootstrap;
 	import org.flixel.*;
 	
 	/**
@@ -22,8 +23,29 @@ package
 		public static var backgroundColor:Number;
 		public static var backgroundChangeTime:Number;		
 		
+		// hehe audio
+		[Embed(source = "../assets/audio/first.mp3")]
+		public var audio1:Class;
+		
+		[Embed(source = "../assets/audio/second.mp3")]
+		public var audio2:Class;
+		
+		[Embed(source = "../assets/audio/third.mp3")]
+		public var audio3:Class;
+		
+		public var audioTime:Number;
+		public var audioSection:Number;
+		
+		public var currAudio:Class;
+		public var nextAudio:Class;
+		
+		public var prevMusic:FlxSound;
+		public var currMusic:FlxSound;
+		public var nextMusic:FlxSound;
+		
 		public function PlayState()
 		{
+			
 		}
 		
 		override public function update():void
@@ -102,7 +124,7 @@ package
 			// animate background color changing
 			if (backgroundChangeTime > 0) {
 				
-				backgroundColor = DistilledHelper.lerpColorWithAlpha(backgroundColor, DistilledHelper.backgroundColors[0], (50 - backgroundChangeTime) / 50);
+				backgroundColor = DistilledHelper.lerpColorWithAlpha(backgroundColor, DistilledHelper.backgroundColors[0], (100 - backgroundChangeTime) / 100);
 				
 				backgroundChangeTime --;
 			}
@@ -122,6 +144,11 @@ package
 				transitionFlag = false;
 				transition();
 			}
+						
+			// audio is broken, this is fix
+			prevMusic.update();
+			currMusic.update();
+			nextMusic.update();
 			
 			super.update();
 		}
@@ -135,7 +162,44 @@ package
 			
 			// we can't really change colors if there aren't any more colors left
 			if (DistilledHelper.backgroundColors.length > 0) 
-				backgroundChangeTime = 50;
+				backgroundChangeTime = 100;
+				
+			audioSection ++;
+			
+			switch (audioSection) {
+				case 1:					
+					currAudio = audio1;
+					currMusic.loadEmbedded(currAudio, true);
+					currMusic.fadeIn(1);
+					break;
+				case 2:
+					nextAudio = audio2;
+					break;
+				case 3:
+					nextAudio = audio3;		
+					break;
+				case 4:
+					nextAudio = audio1;									
+					break;
+			}
+			
+			if (audioSection > 1 && audioSection < 5) {			
+				
+				nextMusic = new FlxSound();
+				nextMusic.loadEmbedded(nextAudio, true);
+										
+				currMusic.fadeOut(2);
+				nextMusic.fadeIn(2);
+				
+				prevMusic = currMusic;
+				
+				currAudio = nextAudio;
+				currMusic = nextMusic;
+				
+				audioTime = 60;
+			}
+			
+			trace ("Transitions");
 		}
 		
 		/**
@@ -168,6 +232,8 @@ package
 					pixelGroup.members[index].velocity.y /= Main.PIXEL / 8;
 				}
 			}
+			
+			
 		}
 		
 		override public function create():void
@@ -191,6 +257,13 @@ package
 			FlxG.camera.follow(cameraFocus);
 			
 			zoom(); // It is to close in otherwise, but I didn't want to have to reset all the scaling by hand
+			
+			audioTime = -1;
+			audioSection = 0;
+			
+			prevMusic = new FlxSound();
+			currMusic = new FlxSound();
+			nextMusic = new FlxSound();
 		}
 	}
 
