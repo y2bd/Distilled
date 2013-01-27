@@ -143,12 +143,12 @@ package
 		 */
 		public function zoom():void
 		{
-			MAX_PIXELS += 3;
-			PIXEL_DELAY--;
+			MAX_PIXELS += 5;
+			PIXEL_DELAY -= 2;
 			
 			zoomTime = 50;
-			zoomFactor = Main.PIXEL / (4 * zoomTime); // How much to increment Main.Pixel each tick while resizing
-			player.boundingSize *= 3 / 4; // Make the player's bounding box scale with him
+			zoomFactor = Main.PIXEL / (3.5 * zoomTime); // How much to increment Main.Pixel each tick while resizing
+			player.boundingSize *= 0.7; // Make the player's bounding box scale with him
 			
 			// Calculate how much each Pixel needs to move per tick and store it in an Array
 			for (var index:int = 0; index < MAX_PIXELS; index++)
@@ -157,10 +157,10 @@ package
 				{
 					var xOffset:int, yOffset:int;
 					xOffset = pixelGroup.members[index].x - cameraFocus.x;
-					xOffset /= 4;
+					xOffset /= 3.5;
 					zoomMoves[index] = xOffset / zoomTime;
 					yOffset = pixelGroup.members[index].y - cameraFocus.y;
-					yOffset /= 4;
+					yOffset /= 3.5;
 					zoomMoves[MAX_PIXELS + index] = yOffset / zoomTime;
 					
 					// Scale the velocities with the Pixels
