@@ -1,6 +1,7 @@
 package 
 {
 	import org.flixel.*;
+	import flash.display.StageQuality;
 	
 	[SWF(width = "512", height = "512", frameRate = "60", backgroundColor = "#FFFFFF")]
 	
@@ -18,6 +19,8 @@ package
 		{
 			super(WIDTH, HEIGHT, PlayState, 1, 60, 30, true);
 			forceDebugger = true;
+			
+			stage.quality = StageQuality.LOW;
 		}
 				
 	}

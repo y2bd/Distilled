@@ -2,6 +2,7 @@ package
 {
 	import mx.core.FlexApplicationBootstrap;
 	import org.flixel.*;
+	import flash.display.StageQuality;
 	
 	/**
 	 * The only state of the game.
@@ -57,7 +58,13 @@ package
 		
 		public var prevMusic:FlxSound;
 		public var currMusic:FlxSound;
-		public var nextMusic:FlxSound;
+		public var nextMusic:FlxSound
+		
+		// timer
+		public var timer:SimpleTimer;
+		public var timerNumber:Number;
+		public var timerState:Number;
+		public var timerText:FlxText;
 		
 		public function PlayState()
 		{
@@ -165,6 +172,42 @@ package
 			currMusic.update();
 			nextMusic.update();
 			
+			// deal with timer
+			if (timerState >= 0) {
+				var min:Number = (int) ((timer.getElapsedTime() / 1000) / 60);
+				var sec:Number = (int) ((timer.getElapsedTime() / 1000) % 60)
+				
+				timerText.text = min + ":" + (sec.toString().length == 1 ? "0" : "") + sec;
+			}
+			
+			if (timerState == 0) {
+				timerText.alpha = (120 - timerNumber) / 120;
+				
+				timerNumber --;
+				
+				if (timerNumber == 0) {
+					timerState = 1;
+					timerNumber = 120;
+				}
+			}
+			else if (timerState == 1) {
+				timerNumber --;
+				
+				if (timerNumber == 0) {
+					timerNumber = 240;
+					timerState = 2;
+				}
+			}
+			else if (timerState == 2) {
+				timerText.y = 244 + (240 - timerNumber);
+				
+				timerNumber --;
+				
+				if (timerNumber == 0) {
+					timerState = 3;
+				}
+			}
+			
 			super.update();
 		}
 		
@@ -208,6 +251,8 @@ package
 					break;
 				case 8: 
 					nextAudio = audio8;
+					timerState = 0;
+					timerNumber = 120;
 					break;
 			}
 			
@@ -266,6 +311,7 @@ package
 		
 		override public function create():void
 		{
+						
 			add(new Background());
 			
 			// set the background color
@@ -292,6 +338,16 @@ package
 			prevMusic = new FlxSound();
 			currMusic = new FlxSound();
 			nextMusic = new FlxSound();
+			
+			timer = new SimpleTimer(true);
+			timerNumber = 0;
+			timerState = -1;
+			timerText = new FlxText(0, 244, 512);
+			timerText.alignment = "center";
+			timerText.size = 24;
+			timerText.alpha = 0;
+			
+			add(timerText);
 		}
 	}
 
