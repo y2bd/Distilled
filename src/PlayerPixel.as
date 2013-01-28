@@ -127,7 +127,7 @@ package
 				numNewLayers++;
 				// Do we want to zoom out?
 				if (numNewLayers == 1 || numNewLayers == 2 || numNewLayers == 3 || numNewLayers == 4
-				 || numNewLayers == 6 || numNewLayers == 8 || numNewLayers == 10 || numNewLayers == 12)
+				 || numNewLayers == 6 || numNewLayers == 8 || numNewLayers == 11 || numNewLayers == 13)
 					PlayState.transitionFlag = true;
 			}
 		}
