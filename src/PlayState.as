@@ -65,6 +65,7 @@ package
 		public var timerNumber:Number;
 		public var timerState:Number;
 		public var timerText:FlxText;
+		public var timerYOffset:Number;
 		
 		public function PlayState()
 		{
@@ -178,6 +179,11 @@ package
 				var sec:Number = (int) ((timer.getElapsedTime() / 1000) % 60)
 				
 				timerText.text = min + ":" + (sec.toString().length == 1 ? "0" : "") + sec;
+				
+				timerText.acceleration = cameraFocus.acceleration;
+				
+				timerText.x = cameraFocus.x - timerText.width / 2;
+				timerText.y = cameraFocus.y - timerText.height / 2 + timerYOffset;
 			}
 			
 			if (timerState == 0) {
@@ -199,7 +205,8 @@ package
 				}
 			}
 			else if (timerState == 2) {
-				timerText.y = 244 + (240 - timerNumber);
+				timerYOffset = (240 - timerNumber);
+				trace(timerYOffset);
 				
 				timerNumber --;
 				
@@ -285,8 +292,8 @@ package
 			PIXEL_DELAY -= 2;
 			
 			zoomTime = 50;
-			zoomFactor = Main.PIXEL / (4.5 * zoomTime); // How much to increment Main.Pixel each tick while resizing
-			player.boundingSize *= 0.75; // Make the player's bounding box scale with him
+			zoomFactor = Main.PIXEL / (5 * zoomTime); // How much to increment Main.Pixel each tick while resizing
+			player.boundingSize *= 0.8; // Make the player's bounding box scale with him
 			
 			// Calculate how much each Pixel needs to move per tick and store it in an Array
 			for (var index:int = 0; index < MAX_PIXELS; index++)
@@ -295,10 +302,10 @@ package
 				{
 					var xOffset:int, yOffset:int;
 					xOffset = pixelGroup.members[index].x - cameraFocus.x;
-					xOffset /= 4.5;
+					xOffset /= 5;
 					zoomMoves[index] = xOffset / zoomTime;
 					yOffset = pixelGroup.members[index].y - cameraFocus.y;
-					yOffset /= 4.5;
+					yOffset /= 5;
 					zoomMoves[MAX_PIXELS + index] = yOffset / zoomTime;
 					
 					// Scale the velocities with the Pixels
