@@ -158,7 +158,7 @@ package
 			
 			if (FlxG.keys.justPressed("SPACE"))
 			{
-				transition();
+				//transition();
 			}
 			
 			// Set by PlayerPixel after a certain number of Pixels are captured
@@ -185,7 +185,7 @@ package
 				timerText.x = cameraFocus.x - timerText.width / 2;
 				timerText.y = cameraFocus.y - timerText.height / 2 + timerYOffset;
 			}
-			
+			/*
 			if (timerState == 0) {
 				timerText.alpha = (120 - timerNumber) / 120;
 				
@@ -196,6 +196,7 @@ package
 					timerNumber = 120;
 				}
 			}
+			
 			else if (timerState == 1) {
 				timerNumber --;
 				
@@ -212,6 +213,15 @@ package
 				
 				if (timerNumber == 0) {
 					timerState = 3;
+				}
+			}
+			*/
+			if (timerState == 0)
+			{
+				timerNumber--;
+				timerText.alpha = (240 - timerNumber) / 240;
+				if (timerNumber == 0) {
+					timerState = 1;
 				}
 			}
 			
@@ -259,7 +269,7 @@ package
 				case 8: 
 					nextAudio = audio8;
 					timerState = 0;
-					timerNumber = 120;
+					timerNumber = 240;
 					break;
 			}
 			
@@ -353,6 +363,7 @@ package
 			timerText.alignment = "center";
 			timerText.size = 24;
 			timerText.alpha = 0;
+			timerYOffset = 240;
 			
 			add(timerText);
 		}
