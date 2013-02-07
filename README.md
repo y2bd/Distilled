@@ -3,6 +3,8 @@
 Distilled is a flash game made by Patrick, Jeffrey, and Jason. 
 It was made during the UCSD Video Game Dev Club Winter Game Jam 2013 (that's a lot of capital letters).
 
+You can play the game on either [Newgrounds](http://www.newgrounds.com/portal/view/610756) or [Kongregate](http://www.kongregate.com/games/yet2bedefined/distilled).
+
 # License
 
 Copyright (c) 2013, Fighting Mongooses
